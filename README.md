@@ -25,7 +25,7 @@ git init
 <br>
 git clone https://github.com/FRC3476/Scouting2017.git
 <br>
-git pull origin/master
+git pull origin master
 
 ### Add Files 
 ####Add Specific Files
