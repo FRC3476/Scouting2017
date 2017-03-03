@@ -25,7 +25,7 @@ include("databaseName.php");
 	//Output- queryString and "Success" statement, data put in columns.
 	function pitScoutInput($teamNum, $weight, $height, $numBatteries, $driveTrain){
 		global $pitScoutTable;
-		$queryString = "INSERT INTO `". $pitScoutTable ."`(`teamNumber`, `weight`, `height`, `numBatteries`, `driveTrain`)
+		$queryString = "INSERT INTO `17template_pitscout`(`teamNumber`, `weight`, `height`, `numBatteries`, `driveTrain`)
 				VALUES (".$teamNum.", ".$weight.", ".$height.", ".$numBatteries.', "'.$driveTrain.'")';
 		runQuery($queryString);	
 		if ($conn->query($queryString) === TRUE) {
@@ -41,7 +41,7 @@ include("databaseName.php");
 		$queryString = "SELECT `teamNumber` FROM `".$pitScoutTable."`";
 		$result = runQuery($queryString);
 		$teams = array();
-		if ($result->num_rows > 0) {
+		if ($result->num_rows > 0) {					
 			// output data of each row
 			while($row = $result->fetch_assoc()) {
 				array_push($teams, $row["teamNumber"]);
@@ -49,6 +49,79 @@ include("databaseName.php");
 		} 
 		return($teams);
 		
+	}
+	//Input- pitScoutInput, Data from pit scout form is assigned to columns in 17template_matchinput.
+	//Output- queryString and "Success" statement, data put in columns.
+	function matchInput( $matchNum,
+						 $teamNum,
+						 $allianceColor,
+						 $crossLineA,
+						 $gearPositionA,
+						 $gearNumberA,
+						 $hopperUsedA,
+						 $rankingPointA,
+						 $gearNumberA,
+						 $gearPickupT,
+						 $fuelGoalT,
+						 $fuelPickupT,
+						 $fuelAccuracyT,
+						 $fuelSpeedT,
+						 $hopperSizeT,
+						 $climb,
+						 $issues,
+						 $defenseBot,
+						 $defenseComments,
+						 $matchComments){
+		global $servername;
+		global $username;
+		global $password;
+		global $dbname;
+		$queryString = "INSERT INTO `17template_matchscout`( `matchNum`,
+															 `teamNum`,
+															 `allianceColor`,
+															 `crossLineA`,
+															 `gearPositionA`,
+															 `gearNumberA`,
+															 `hopperUsedA`,
+															 `rankingPointA`,
+															 `gearNumberT`,
+															 `gearPickupT`,
+															 `fuelGoalT`,
+															 `fuelPickupT`,
+															 `fuelAccuracyT`,
+															 `fuelSpeedT`,
+															 `hopperSizeT`,
+															 `climb`,
+															 `issues`,
+															 `defenseBot`,
+															 `defenseComments`,
+															 `matchComments`)
+													VALUES ( ".$matchNum."
+															 ".$teamNum."
+															 ".$allianceColor."
+															 ".$crossLineA."
+															 ".$gearPositionA."
+															 ".$gearNumberA."
+															 ".$hopperUsedA."
+															 ".$rankingPointA."
+															 ".$gearNumberA."
+															 ".$gearPickupT."
+															 ".$fuelGoalT."
+															 ".$fuelPickupT."
+															 ".$fuelAccuracyT."
+															 ".$fuelSpeedT."
+															 ".$hopperSizeT."
+															 ".$climb."
+															 ".$issues."
+															 ".$defenseBot."
+															 ".$defenseComments."
+															 ".$matchComments.")";
+		runQuery($queryString);	
+		if ($conn->query($queryString) === TRUE) {
+			return "Success";
+		} else {
+			return "Error: " . $queryString . "<br>" . $conn->error;
+		}		
 	}
 ?>
 
