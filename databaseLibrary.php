@@ -25,7 +25,7 @@ include("databaseName.php");
 	//Output- queryString and "Success" statement, data put in columns.
 	function pitScoutInput($teamNum, $weight, $height, $numBatteries, $driveTrain){
 		global $pitScoutTable;
-		$queryString = "INSERT INTO `17template_pitscout`(`teamNumber`, `weight`, `height`, `numBatteries`, `driveTrain`)
+		$queryString = "INSERT INTO `".$pitScoutTable."`(`teamNumber`, `weight`, `height`, `numBatteries`, `driveTrain`)
 				VALUES (".$teamNum.", ".$weight.", ".$height.", ".$numBatteries.', "'.$driveTrain.'")';
 		runQuery($queryString);	
 		if ($conn->query($queryString) === TRUE) {
@@ -76,7 +76,8 @@ include("databaseName.php");
 		global $username;
 		global $password;
 		global $dbname;
-		$queryString = "INSERT INTO `17template_matchscout`( `matchNum`,
+		global $matchScoutTable;
+		$queryString = "INSERT INTO `".$matchScoutTable."`( `matchNum`,
 															 `teamNum`,
 															 `allianceColor`,
 															 `crossLineA`,

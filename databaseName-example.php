@@ -1,11 +1,10 @@
 <?php
-	$address = "localhost";
+	$servername = "localhost";
 	$username = "root";
 	$password = "";
+	$dbname = "scouting";
 	
-	$databaseHours = "hours";
-	$hoursCTimeTable = "cTimeTable";
-	$hoursPTimeTable = "pTimeTable";
-	$hoursUserInfo = "userInfo";
-	
+	$pitScoutTable = "17template_pitscout";
+	$matchScoutTable = "17template_matchscout";
+
 ?>
