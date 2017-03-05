@@ -1,6 +1,5 @@
 <?php
     session_start();
-    
 	include("databaseName.php");
 
 	$con= mysql_connect($servername, $username, $password, $dbname); 

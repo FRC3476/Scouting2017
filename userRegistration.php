@@ -15,7 +15,7 @@
 			
 		<div style="width: 50%; margin: 0 auto;">
 		<?php
-			if($_POST["ID"]){
+			if(isset($_POST["ID"])){
 				
 				include("databaseName.php");
 

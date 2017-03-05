@@ -134,5 +134,61 @@ include("databaseName.php");
 			return "Error: " . $queryOutput . "<br>";
 		}		
 	}
+	
+	function getTeamData($teamNumber){
+		global $servername;
+		global $username;
+		global $password;
+		global $dbname;
+		global $pitScoutTable;
+		global $matchScoutTable;
+		
+		$qs1 = "SELECT * FROM `".$pitScoutTable."` WHERE teamNumber = ".$teamNumber."";
+		$qs2 = "SELECT * FROM `".$matchScoutTable."`  WHERE teamNum = ".$teamNumber."";
+		$result = runQuery($qs1);
+		$result2 = runQuery($qs2);
+		$teamData = array();
+		if($result != FALSE){
+			if ($result->num_rows > 0) {					
+				// output data of each row
+				while($row = $result->fetch_assoc()) {
+				array_push( $teamData, $row["weight"], $row["height"], $row["numBatteries"], $row["driveTrain"]);
+				}
+			}
+		}
+		if($result2 != FALSE){
+			while ($row = mysqli_fetch_array($result2)){
+				array_push(	$teamData[4],$row["user"], $row["ID"], $row["matchNum"], 
+							$row["teamNum"], $row["allianceColor"], $row["autoPath"], 
+							$row["crossLineA"], $row["gearPositionA"], $row["gearNumberA"], 
+							$row["hopperUsedA"], $row["rankingPointA"], $row["gearNumberT"], 
+							$row["gearPickupT"], $row["fuelGoalT"], $row["fuelPickupT"], 
+							$row["fuelAccuracyT"], $row["fuelSpeedT"], $row["hopperSizeT"], 
+							$row["climb"], $row["issues"], $row["defenseBot"], 
+							$row["defenseComments"], $row["matchComments"]);
+			}
+			return($teamData);	
+		}
+	}
+	
+	function getAvgGearA($teamData){
+		$gearCount = 0;
+		$matchCount  = 0;
+		for($i = 0; $i != sizeof($teamData[4]); $i++){
+			$gearCount = $gearCount + $teamData[4][i]["gearNumberA"];
+			$matchCount += 1;
+		}
+		return $gearCount/$matchCount;
+	}
+	function getAvgGearT($teamData){
+		$gearCount = 0;
+		$matchCount  = 0;
+		while ($row = mysql_fetch_array($pteamData)){
+			$gearCount = $gearCount + $teamData[3][i]["gearNumberT"];
+			$matchCount += 1;
+		}
+		return $gearCount/$matchCount;
+	}
+	print_r(getTeamData(3476));
 ?>
  

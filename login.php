@@ -17,7 +17,6 @@
     
     //Session_start(); is needed when working with any session variables, but this is already called in navBar.php
     session_start();
-    
 	if(isset($_SESSION['userIDCookie'])){
 		header("Location: matchInput.php");
 	}
@@ -48,6 +47,7 @@
 				$errorMess = "Invalid ID. Login again.";
 				//header("Refresh:0"); 
 			}
+			print($_POST['ID']);
 		}
 		else {
 			//header("Refresh:0");
