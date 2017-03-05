@@ -1,33 +1,47 @@
-
 <html>
+<?php
+		session_start();
+		if($_SESSION['userIDCookie'] ){
+		}
+		else{
+			header("Location: login.php");
+		}
+
+?>
 <?php 
 include("navbar.php");
-include("databaseLibrary.php");
 
-if( isset( $_SESSION['matchNum'] ) ) {
-	 $matchNum = filter_var($_POST['matchNum'],FILTER_SANITIZE_STRIPPED);
-	 $teamNum = filter_var($_POST['teamNum'],FILTER_SANITIZE_STRIPPED);
-	 $allianceColor = filter_var($_POST['allianceColor'],FILTER_SANITIZE_STRIPPED);
-	 $crossLineA = filter_var($_POST['crossLineA'],FILTER_SANITIZE_STRIPPED);
-	 $gearPositionA = filter_var($_POST['gearPositionA'],FILTER_SANITIZE_STRIPPED);
-	 $gearNumberA = filter_var($_POST['gearNumberA'],FILTER_SANITIZE_STRIPPED);
-	 $hopperUsedA = filter_var($_POST['hopperUsedA'],FILTER_SANITIZE_STRIPPED);
-	 $rankingPointA = filter_var($_POST['rankingPointA'],FILTER_SANITIZE_STRIPPED);
-	 $gearNumberA = filter_var($_POST['gearNumberT'],FILTER_SANITIZE_STRIPPED);
-	 $gearPickupT = filter_var($_POST['gearPickupT'],FILTER_SANITIZE_STRIPPED);
-	 $fuelGoalT = filter_var($_POST['fuelGoalT'],FILTER_SANITIZE_STRIPPED);
-	 $fuelPickupT = filter_var($_POST['fuelPickupT'],FILTER_SANITIZE_STRIPPED);
-	 $fuelAccuracyT = filter_var($_POST['fuelAccuracyT'],FILTER_SANITIZE_STRIPPED);
-	 $fuelSpeedT = filter_var($_POST['fuelSpeedT'],FILTER_SANITIZE_STRIPPED);
-	 $hopperSizeT = filter_var($_POST['hopperSizeT'],FILTER_SANITIZE_STRIPPED);
-	 $climb = filter_var($_POST['climb'],FILTER_SANITIZE_STRIPPED);
-	 $issues = filter_var($_POST['issues'],FILTER_SANITIZE_STRIPPED);
-	 $defenseBot = filter_var($_POST['defenseBot'],FILTER_SANITIZE_STRIPPED);
-	 $defenseComments = filter_var($_POST['defenseComments'],FILTER_SANITIZE_STRIPPED);
-	 $matchComments = filter_var($_POST['matchComments'],FILTER_SANITIZE_STRIPPED);
-	 matchInput( $matchNum,
+if( isset( $_POST['matchNum'] ) ) {
+	include("databaseLibrary.php");
+	 $user = ($_SESSION['userIDCookie']);
+	 $matchNum = mysql_real_escape_string($_POST['matchNum']);
+	 $teamNum = mysql_real_escape_string($_POST['teamNum']);
+	 $ID = $matchNum."-".$teamNum;
+	 $allianceColor = mysql_real_escape_string($_POST['allianceColor']);
+	 $autoPath = mysql_real_escape_string($_POST['autoPath']);
+	 $crossLineA = mysql_real_escape_string($_POST['crossLineA']);
+	 $gearPositionA = mysql_real_escape_string($_POST['gearPositionA']);
+	 $gearNumberA = mysql_real_escape_string($_POST['gearNumberA']);
+	 $hopperUsedA = mysql_real_escape_string($_POST['hopperUsedA']);
+	 $rankingPointA = mysql_real_escape_string($_POST['rankingPointA']);
+	 $gearNumberA = mysql_real_escape_string($_POST['gearNumberT']);
+	 $gearPickupT = mysql_real_escape_string($_POST['gearPickupT']);
+	 $fuelGoalT = mysql_real_escape_string($_POST['fuelGoalT']);
+	 $fuelPickupT = mysql_real_escape_string($_POST['fuelPickupT']);
+	 $fuelAccuracyT = mysql_real_escape_string($_POST['fuelAccuracyT']);
+	 $fuelSpeedT = mysql_real_escape_string($_POST['fuelSpeedT']);
+	 $hopperSizeT = mysql_real_escape_string($_POST['hopperSizeT']);
+	 $climb = mysql_real_escape_string($_POST['climb']);
+	 $issues = mysql_real_escape_string($_POST['issues']);
+	 $defenseBot = mysql_real_escape_string($_POST['defenseBot']);
+	 $defenseComments = mysql_real_escape_string($_POST['defenseComments']);
+	 $matchComments = mysql_real_escape_string($_POST['matchComments']);
+	 matchInput( $user,
+				 $ID,
+				 $matchNum,
 				 $teamNum,
 				 $allianceColor,
+				 $autoPath,
 				 $crossLineA,
 				 $gearPositionA,
 				 $gearNumberA,
@@ -133,6 +147,7 @@ function postwith(to){
 		 'matchNum',
 		 'teamNum',
 		 'allianceColor',
+		 'autoPath',
 		 'crossLineA',
 		 'gearPositionA',
 		 'gearNumberA',
@@ -158,6 +173,7 @@ function postwith(to){
 		document.getElementById('matchNum').value,
 		document.getElementById('teamNum').value,
 		document.getElementById('allianceColor').value,
+		JSON.stringify(coordinateList),
 		document.getElementById('crossLineA').checked?1:0,
 		document.getElementById('gearPositionA').value,
 		gearNumberA,
@@ -223,7 +239,147 @@ function postwith(to){
 							<input id="crossLineA" type="checkbox">
 						</label>
 					</div>
-						<canvas id="myCanvas" width="300" height="450" style="border:1px solid #d3d3d3;">
+					<a href="javascript:void(0)" class="btn btn-raised btn-boulder btn-material-teal-600" onclick="clearPath()"><b>CLEAR PATH</b></a>
+						<canvas id="myCanvas" width="300" height="330" style="border:1px solid #d3d3d3;">
+						<script type="text/javascript">
+								var canvas = document.getElementById('myCanvas');
+								var context = canvas.getContext('2d');
+								var drawLine = false;
+								var oldCoor = {};
+								var i = 1;
+								var t;
+								var coordinateList = [];
+								var lastCoordinate = {};
+								var imageObj = new Image();
+
+								  imageObj.onload = function() {
+									context.drawImage(imageObj, 0, 0, 300, 400);
+								  };
+								  imageObj.src = 'autoPath.png';
+								  
+								function clearPath(){
+									context.clearRect(0, 0, 300, 330);
+									context.drawImage(imageObj, 0, 0, 300, 400);
+									coordinateList = [];
+									lastCoordinate = {};
+								}
+								
+								function addCoordinate(coor){
+									coordinateList.push(coor);
+								}
+								
+								function updateRobotHTML(){
+									
+								}
+						
+								function randomColor(){
+									var choices = "0123456789abcdef";
+									var out = "#";
+									for(var i = 0; i < 6; i++){
+										out += choices[Math.floor(Math.random() * 16)];
+									}
+									return(out);
+								}
+								
+								function adjustCanvas(){
+									$("#canvasHolder").css('height' , $(window).height()-25);
+									$("#canvasHolder").css('height' , $(window).height()-25);
+									$("#main").attr('width' , $("#canvasHolder").width());
+									$("#main").attr('height' , $("#canvasHolder").height());
+								}
+								
+								function resize(){    
+									//$("#main").outerHeight($(window).height()-$("#main").offset().top- Math.abs($("#main").outerHeight(true) - $("#main").outerHeight()));
+									//$("#main").outerHeight(100*i);
+									//$("#main").outerWidth(100*i);
+									canvas.width = $(window).width() - 35;
+									canvas.height = $(window).height() - 25;
+								}
+								
+								$(document).ready(function(){
+									$.material.init()
+									//resize();
+									adjustCanvas();
+									$(window).on("resize", function(){                      
+										//resize();
+										adjustCanvas();
+									});
+									context.stroke();
+									//$("#main")[0].webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT); //Chrome
+									//$("#main")[0].mozRequestFullScreen(); //Firefox
+									canvas.addEventListener('touchmove', movePath, false);
+									canvas.addEventListener('touchstart', startPoint, false);
+									canvas.addEventListener('touchend', endPoint, false);
+									
+									canvas.addEventListener('mousemove', movePath, false);
+									canvas.addEventListener('mousedown', startPoint, false);
+									canvas.addEventListener('mouseup', endPoint, false);
+								});
+								
+								function getMousePos(canvas, evt) {
+									var rect = canvas.getBoundingClientRect();
+									var evtType = evt.constructor.name;
+									if(evtType == "TouchEvent"){
+										return {
+											x: evt.touches[0].clientX - rect.left,
+											y: evt.touches[0].clientY - rect.top
+											};
+									}
+									else if(evtType = "MouseEvent"){
+										return {
+											x: evt.clientX - rect.left,
+											y: evt.clientY - rect.top
+											};
+									}
+									else{
+										alert("Input type not supported!")
+									} 
+								}
+								
+								function drawPoint(context , x , y){
+									context.fillRect(x,y,1,1);
+								}
+									
+								function drawPointLines(context , point){
+									var color = "#FFFFFF";
+									if(lastCoordinate.length == 0){
+										lastCoordinate = point;
+									}
+									else{
+										context.beginPath();
+										context.strokeStyle = color;
+										context.moveTo(lastCoordinate[0] , lastCoordinate[1]);
+										context.lineTo(point[0] , point[1]);
+										addCoordinate(point);
+										lastCoordinate = point;
+										context.stroke();
+									}
+								}
+								
+								function movePath(evt){
+									t = evt;
+									if(drawLine){
+										var mousePos = getMousePos(canvas, evt);
+										var message = mousePos.x + ' , ' + mousePos.y;
+										//drawPoint(context , mousePos.x , mousePos.y);
+										drawPointLines(context , [mousePos.x , mousePos.y]);
+										console.log(message);
+									}	
+								}
+								
+								function startPoint(evt){
+									console.log("A");
+									drawLine = true;
+								}
+								
+								function endPoint(evt){
+									console.log("B");
+									drawLine = false;
+								}
+								
+								
+								
+							</script>
 				</div>
 				<div class="col-md-4">
 				<a><h3><b><u>Gear:</u></b></h3></a>
@@ -263,73 +419,37 @@ function postwith(to){
 				<div class="col-md-3">
 				<a><h3><b><u>Gear:</u></b></h3></a>
 					<h4><b>Gear Pickup:</b></h4>
-					<div class="radio radio-warning" id="gearPickupT">
-						<label>
-							<input type="radio" value="Not Able">
-						</label>
-						<b>Not Able To Pick up Gear</b>
-						<br>
-						<label>
-							<input type="radio" value="Feeder Station">
-						</label>
-						<b>Feeder Station</b>
-						<br>
-						<label>
-							<input type="radio" value="Floor">
-						</label>
-						<b>Floor Pickup</b>
-						<br>
-						<label>
-							<input type="radio" value="Both">
-						</label>
-						<b>Both</b>
-					</div>
+						<select id="gearPickupT" multiple="" class="form-control">
+						  <option value="N/A">Not Able to Get Fuel</option>
+						  <option value="feeder station">Feeder Station</option>
+						  <option value="floor">Floor Pickup</option>
+						  <option value="Both">Both</option>
+						</select>
 					<h4><b>No. of Gears Placed:</b></h4>
 						<button type="button" onClick="decGearsPlacedT()" class="enlargedtext ">-</button>	
 						<a id="gearNumberT" class="enlargedtext">0</a>
 						<button type="button" onClick="incrGearsPlacedT()" class="enlargedtext">+</button>
 					<a><h3><b><u>Robot Issues:</u></b></h3></a>
-					<div class="radio radio-warning" id="issues">
-						<label>
-							<input type="radio" value="Dead">
-						</label>
-						<b>Dead</b>
-						<br>
-						<label>
-							<input type="radio" value="Stopped Working">
-						</label>
-						<b>Stopped Working</b>
-						<br>
-						<label>
-							<input type="radio" value="Fell Over">
-						</label>
-						<b>Fell Over</b>
-					</div>
+						<select id="issues" multiple="" class="form-control">
+						  <option value="N/A">None</option>
+						  <option value="dead">Dead</option>
+						  <option value="stopped working">Stopped Working</option>
+						  <option value="fell over">Fell Over</option>
+						</select>
 				</div>
 				<div class="col-md-3">
 				<a><h3><b><u>Fuel:</u></b></h3></a>
 					<h4><b>Fuel Pickup:</b></h4>
-					<div class="radio radio-warning" id="fuelPickupT">
-						<label>
-							<input type="radio" value="Not Able">
-						</label>
-						<b>Not Able To Get Fuel</b>
-						<br>
-						<label>
-							<input type="radio" value="Feeder Station">
-						</label>
-						<b>Feeder Station</b>
-						<br>
-						<label>
-							<input type="radio" value="Floor">
-						</label>
-						<b>Floor Pickup</b>
-						<br>
-						<label>
-							<input type="radio" value="Hopper">
-						</label>
-						<b>Hopper</b>
-					</div>
+						<select id="fuelPickupT" multiple="" class="form-control">
+							  <option value="N/A">Not Able to Get Fuel</option>
+							  <option value="feeder station">Feeder Station</option>
+							  <option value="floor">Floor Pickup</option>
+							  <option value="hopper">Hopper</option>
+							  <option value="feeder and floor">Feeder & Floor</option>
+							  <option value="feeder and hopper">Feeder & Hopper</option>
+							  <option value="floor and hopper">Floor & Hopper</option>
+							  <option value="all">All 3</option>
+						</select>
 					<h4><b>Goal Scored In -</b></h4>
 					<select id="fuelGoalT" class="form-control">
 						 <option value="Not Attempted">Not Attempted</option>
@@ -339,7 +459,7 @@ function postwith(to){
 					</select>
 					<h4><b>Fuel Accuracy -</b></h4>
 					<select id="fuelAccuracyT" class="form-control">
-						 <option value="1">N/A</option>
+						 <option value="N/A">N/A</option>
 						 <option value="1">1 (< / =60%)</option>
 						 <option value="2">2 (61 - 70%)</option>
 						 <option value="3">3 (71 - 80%)</option>
@@ -351,7 +471,7 @@ function postwith(to){
 				<br><br>
 				<h4><b>Fuel Speed -</b></h4>
 					<select id="fuelSpeedT" class="form-control">
-						 <option value="1">N/A</option>
+						 <option value="N/A">N/A</option>
 						 <option value="1">1 (> / =50 sec)</option>
 						 <option value="2">2 (31 - 40 sec)</option>
 						 <option value="3">3 (21 - 30 sec)</option>
@@ -360,7 +480,7 @@ function postwith(to){
 					</select>
 					<h4><b>Hopper Size -</b></h4>
 					<select id="hopperSizeT" class="form-control">
-						 <option value="1">N/A)</option>
+						 <option value="N/A">N/A</option>
 						 <option value="1">1 (~20 Fuel)</option>
 						 <option value="2">2 (~40 Fuel)</option>
 						 <option value="3">3 (~60 Fuel)</option>
