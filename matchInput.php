@@ -24,7 +24,7 @@ if( isset( $_POST['matchNum'] ) ) {
 	 $gearNumberA = mysql_real_escape_string($_POST['gearNumberA']);
 	 $hopperUsedA = mysql_real_escape_string($_POST['hopperUsedA']);
 	 $rankingPointA = mysql_real_escape_string($_POST['rankingPointA']);
-	 $gearNumberA = mysql_real_escape_string($_POST['gearNumberT']);
+	 $gearNumberT = mysql_real_escape_string($_POST['gearNumberT']);
 	 $gearPickupT = mysql_real_escape_string($_POST['gearPickupT']);
 	 $fuelGoalT = mysql_real_escape_string($_POST['fuelGoalT']);
 	 $fuelPickupT = mysql_real_escape_string($_POST['fuelPickupT']);
@@ -32,6 +32,7 @@ if( isset( $_POST['matchNum'] ) ) {
 	 $fuelSpeedT = mysql_real_escape_string($_POST['fuelSpeedT']);
 	 $hopperSizeT = mysql_real_escape_string($_POST['hopperSizeT']);
 	 $climb = mysql_real_escape_string($_POST['climb']);
+	 $climbExtent = mysql_real_escape_string($_POST['climbExtent']);
 	 $issues = mysql_real_escape_string($_POST['issues']);
 	 $defenseBot = mysql_real_escape_string($_POST['defenseBot']);
 	 $defenseComments = mysql_real_escape_string($_POST['defenseComments']);
@@ -47,7 +48,7 @@ if( isset( $_POST['matchNum'] ) ) {
 				 $gearNumberA,
 				 $hopperUsedA,
 				 $rankingPointA,
-				 $gearNumberA,
+				 $gearNumberT,
 				 $gearPickupT,
 				 $fuelGoalT,
 				 $fuelPickupT,
@@ -55,6 +56,7 @@ if( isset( $_POST['matchNum'] ) ) {
 				 $fuelSpeedT,
 				 $hopperSizeT,
 				 $climb,
+				 $climbExtent,
 				 $issues,
 				 $defenseBot,
 				 $defenseComments,
@@ -161,6 +163,7 @@ function postwith(to){
 		 'fuelSpeedT',
 		 'hopperSizeT',
 		 'climb',
+		 'climbExtent',
 		 'issues',
 		 'defenseBot',
 		 'defenseComments',
@@ -186,7 +189,8 @@ function postwith(to){
 		document.getElementById('fuelAccuracyT').value,
 		document.getElementById('fuelSpeedT').value,
 		document.getElementById('hopperSizeT').value,
-		document.getElementById('climb').value,
+		document.getElementById('climb').checked?1:0,
+		document.getElementById('climbExtent').value,
 		document.getElementById('issues').value,
 		document.getElementById('defenseBot').checked?1:0,
 		document.getElementById('defenseComments').value,
@@ -255,7 +259,7 @@ function postwith(to){
 								  imageObj.onload = function() {
 									context.drawImage(imageObj, 0, 0, 300, 400);
 								  };
-								  imageObj.src = 'autoPath.png';
+								  imageObj.src = 'pictures/autoPath.png';
 								  
 								function clearPath(){
 									context.clearRect(0, 0, 300, 330);
@@ -394,7 +398,7 @@ function postwith(to){
 						 <option value="middle">2</option>
 						 <option value="right">3</option>
 					</select>
-						<img src="gearPositionPic.png" width="600" height="300">
+						<img src="pictures/gearPositionPic.png" width="600" height="300">
 				</div>
 				<div class="col-md-4">
 				<a><h3><b><u>Fuel:</u></b></h3></a>
@@ -420,7 +424,7 @@ function postwith(to){
 				<a><h3><b><u>Gear:</u></b></h3></a>
 					<h4><b>Gear Pickup:</b></h4>
 						<select id="gearPickupT" multiple="" class="form-control">
-						  <option value="N/A">Not Able to Get Fuel</option>
+						  <option value="N/A">Not Able to Get Gears</option>
 						  <option value="feeder station">Feeder Station</option>
 						  <option value="floor">Floor Pickup</option>
 						  <option value="Both">Both</option>
@@ -485,11 +489,17 @@ function postwith(to){
 						 <option value="2">2 (~40 Fuel)</option>
 						 <option value="3">3 (~60 Fuel)</option>
 						 <option value="4">4 (~80 Fuel)</option>
-						 <option value="5">5 (100 Fuel)</option>
+						 <option value="5">5 (~100 Fuel)</option>
 					</select>
 				<a><h3><b><u>Climb:</u></b></h3></a>
+					<div class="togglebutton" id="reach">
+						<h4><b>Climb?</b></h4>
+						<label>
+							<input id="climb" type="checkbox">
+						</label>
+					</div>
 					<h4><b>Climb Final Position -</b></h4>
-					<select id="climb" class="form-control">
+					<select id="climbExtent" class="form-control">
 						 <option value="Not Attempted">Not Attempted</option>
 						 <option value="Ready for Takeoff">Ready for Takeoff</option>
 						 <option value="Halfway">Halfway</option>

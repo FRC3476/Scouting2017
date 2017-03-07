@@ -11,7 +11,7 @@ include('navbar.php');
 				<h4>
 				Please wait for instructions from the Head Scout before getting started. 
 				</h4>
-				<img src="hobbes.png" class="col-lg-6 col-sm-6 col-xs-12">
+				<img src="pictures/hobbes.png" class="col-lg-6 col-sm-6 col-xs-12">
 		</div>
 	</div>
 </body>
