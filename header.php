@@ -10,6 +10,7 @@
 	<script src="externalJS/bootstrap.min.js"></script>
 	<script src="externalJS/material.min.js"></script>
 	<script src="externalJS/ripples.min.js"></script>
+	<script src="externalJS/sorttable.js"></script>
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>

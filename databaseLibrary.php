@@ -137,6 +137,58 @@ include("databaseName.php");
 			return "Error: " . $queryOutput . "<br>";
 		}		
 	}
+	function headScoutInput($matchNum,
+							$team1,
+							$team2,
+							$team3,
+							$team4,
+							$team5,
+							$team6,
+							$strategy1,
+							$strategy2,
+							$strategy3,
+							$strategy4,
+							$strategy5,
+							$strategy6){
+		global $servername;
+		global $username;
+		global $password;
+		global $dbname;
+		global $headScoutTable;
+		$queryString = "INSERT INTO `".$headScoutTable.'`(  `matchNum`,
+															`team1`,
+															`team2`,
+															`team3`,
+															`team4`,
+															`team5`,
+															`team6`,
+															`strategy1`,
+															`strategy2`,
+															`strategy3`,
+															`strategy4`,
+															`strategy5`,
+															`strategy6`) 
+															VALUES 
+															("'.$matchNum.'",
+															"'.$team1.'",
+															"'.$team2.'",
+															"'.$team3.'",
+															"'.$team4.'",
+															"'.$team5.'",
+															"'.$team6.'",
+															"'.$strategy1.'",
+															"'.$strategy2.'",
+															"'.$strategy3.'",
+															"'.$strategy4.'",
+															"'.$strategy5.'",
+															"'.$strategy6.'")';
+		$queryOutput = runQuery($queryString);	
+		if ($queryOutput === TRUE) {
+			return "Success";
+		} else {
+			return "Error: " . $queryOutput . "<br>";
+		}		
+	}
 	
 	function getTeamData($teamNumber){
 		global $servername;
@@ -201,6 +253,14 @@ include("databaseName.php");
 			$climbCount = $climbCount + $teamData[5][$i][18];
 		}
 		return ($climbCount);
+	}
+	function getTotalDefense($teamNumber){
+		$teamData = getTeamData($teamNumber);
+		$defenseCount = 0;
+		for($i = 0; $i != sizeof($teamData[5]); $i++){
+			$defenseCount = $defenseCount + $teamData[5][$i][21];
+		}
+		return ($defenseCount);
 	}
 	function getGearA($teamNumber){
 		$teamData = getTeamData($teamNumber);
@@ -315,5 +375,35 @@ include("databaseName.php");
 			}
 		}
 		return($hopperSize);
+	}
+	function avgFuelAccuracy($teamNumber){
+		$teamData = getTeamData($teamNumber);
+		$fuelAccuracy = 0;
+		$matchCount  = 0;
+		for($i = 0; $i != sizeof($teamData[5]); $i++){
+			$fuelAccuracy = $fuelAccuracy + $teamData[5][$i][15];
+			$matchCount++;
+		}
+		return ($fuelAccuracy/$matchCount);
+	}
+	function avgFuelSpeed($teamNumber){
+		$teamData = getTeamData($teamNumber);
+		$fuelSpeed = 0;
+		$matchCount  = 0;
+		for($i = 0; $i != sizeof($teamData[5]); $i++){
+			$fuelSpeedt = $fuelSpeed + $teamData[5][$i][16];
+			$matchCount++;
+		}
+		return ($fuelSpeed/$matchCount);
+	}
+	function avgHopperSize($teamNumber){
+		$teamData = getTeamData($teamNumber);
+		$hopperSize = 0;
+		$matchCount  = 0;
+		for($i = 0; $i != sizeof($teamData[5]); $i++){
+			$hopperSize = $hopperSize + $teamData[5][$i][17];
+			$matchCount++;
+		}
+		return ($hopperSize/$matchCount);
 	}
 ?>
