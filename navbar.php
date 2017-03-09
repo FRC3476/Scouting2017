@@ -22,27 +22,19 @@
 					<a data-target="#" class="dropdown-toggle" data-toggle="dropdown">Forms<b class="caret"></b></a>
 	                    <ul class="dropdown-menu">
 	                        <li><a href="matchInput.php">Match Form</a></li>
-							<li><a href="headscoutInput.php">HS Pre-Input</a></li>
-							<li><a href="headscoutMatchInput.php">HS Input</a></li>
+							<li><a href="headScoutInput.php">HS Input</a></li>
 							<li><a href="pitInput.php">PS Form</a></li>
 							<li><a href="pictureUpload.php">Picture Upload</a></li>
-							<li><a href="userRegistration.php">User Registration</a></li>
 							<li><a href="databaseOperations.php">Database Op</a></li>		
 	                    </ul>
 				</li>
-				<li><a href="matchView.php">Match View</a></li>
+				<li><a href="userRegistration.php">User Registration</a></li>
 				<li><a href="teamData.php">Team Data</a></li>
-				<li><a href="getMatchData.php">Match Data</a></li>
-				<li><a href="defenseSelection.php">Match Summary</a></li>
+				<li><a href="matchData.php">Match Data</a></li>
 				<li><a href="teamRanking.php">Ranking</a></li>	
-				<li class = "dropdown">
-					<a data-target="#" class="dropdown-toggle" data-toggle="dropdown">Form Outputs<b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li><a href="matchOutput.php">Match Output</a></li>
-							<li><a href="headScoutOutput.php">Defense Output</a></li>	
-							<li><a href="headOutput.php">HS Output</a></li>	
-						</ul>
-				</li>
+				<li><a href="matchOutput.php">Match Output</a></li>
+				<li><a href="headScoutOutput.php">HS Output</a></li>	
+
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
                     <?php

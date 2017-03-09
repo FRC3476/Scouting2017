@@ -112,12 +112,12 @@ function autotele(){
 		if(mode == true){
 			$('#autoscouting').hide();
 			$('#teleopscouting').show();
-			document.getElementById("Switch").innerHTML = "Auto <br> (Shift)";
+			document.getElementById("Switch").innerHTML = "Auto";
 		}
 		else{
 			$('#autoscouting').show();
 			$('#teleopscouting').hide();
-			document.getElementById("Switch").innerHTML="Teleop <br> (Shift)";
+			document.getElementById("Switch").innerHTML="Teleop";
 		}
 		mode = !mode; 
 	}	
@@ -229,7 +229,7 @@ function postwith(to){
 					</select>
 				</div>
 				<div class="col-md-3">
-					<button id="Switch" onclick="autotele();" class="btn btn-primary" >Teleop <br> (Shift)</button>
+					<button id="Switch" onclick="autotele();" class="btn btn-primary" >Teleop</button>
 				</div>
 			</div>
 		</div>

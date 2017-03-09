@@ -1,5 +1,6 @@
 <html>
-<?php include("navbar.php");?>
+<?php session_start();
+include("navbar.php");?>
 <body>
 <script src="externalJS/Chart.js"></script>
 <style>
@@ -290,7 +291,7 @@ var $ = jQuery.noConflict();
 					  <tr class="danger">
 							<td>Head Scout Comments</td>
 							<td><?php $headScoutComments = headScoutComments($teamNumber); 
-										for($i = 0; $i!= sizeof($teamData[5]); $i++){
+										for($i = 0; $i!= sizeof($teamData[6]); $i++){
 											echo("$headScoutComments[$i], ").PHP_EOL;											
 										}?></td>
 					  </tr>
@@ -327,7 +328,7 @@ var $ = jQuery.noConflict();
 					</table>
 				</div>
 				<div>
-					<canvas id="myCanvas" width="300" height="300" style="border:1px solid #d3d3d3;"></canvas>
+					<canvas id="myCanvas" width="300" height="330" style="border:1px solid #d3d3d3;"></canvas>
 					<script type="text/javascript">
 						var canvas = document.getElementById('myCanvas');
 						var context = canvas.getContext('2d');
@@ -338,11 +339,22 @@ var $ = jQuery.noConflict();
 						var coordinateList = [];
 						var lastCoordinate = {};
 						var imageObj = new Image();
+						var matchToPoints = [];
+						<?php
+							for($i = 0; $i != sizeof($teamData[5]); $i++){
+								echo("matchToPoints[".$teamData[5][$i][2]."] = ".$teamData[5][$i][5].";");
+							}
+						?>
 
 						  imageObj.onload = function() {
-							context.drawImage(imageObj, 0, 0, 300, 400);
+							makeCanvasReady();
 						  };
 						  imageObj.src = 'pictures/autoPath.png';
+						  
+						function makeCanvasReady(){
+							context.clearRect(0, 0, 300, 330);
+							context.drawImage(imageObj, 0, 0, 300, 400);
+						}
 
 						function adjustCanvas(){
 							$("#canvasHolder").css('height' , $(window).height()-25);
@@ -355,25 +367,33 @@ var $ = jQuery.noConflict();
 							context.fillRect(x,y,1,1);
 						}
 							
-						function drawPointLines(context , point){
+						function drawPointLines(){
+							makeCanvasReady();
+							var matchNumber = document.getElementById("matchNum").value;
+							var a = matchToPoints[matchNumber];
 							var color = "#FFFFFF";
-							if(lastCoordinate.length == 0){
-								lastCoordinate = point;
-							}
-							else{
 								context.beginPath();
 								context.strokeStyle = color;
-								context.moveTo(<?php for($i = 0;$i != sizeof($teamData[5]); $i++){
-														print_r($teamData[5][$i][5][0]);
-													}?>);
-								context.lineTo(<?php for($i = 0;$i != sizeof($teamData[5]); $i++){
-														print_r($teamData[5][$i][5][$i+1]);
-													}?>);
-								context.stroke();
+							
+							for(var i = 0; i !=a.length; i++){
+								if(i == 0){
+									context.moveTo(a[i][0],a[i][1]); 
+								}
+								else{
+									context.lineTo(a[i][0], a[i][1]);
+								}
 							}
+							context.stroke();
 						}
+						
 			
 					</script>
+					<h4><b>Match Number -</b></h4>
+					<select onclick = "drawPointLines()"id="matchNum" class="form-control">
+					<?php for($i = 0;$i != sizeof($teamData[5]); $i++){
+							echo("<option value='".$teamData[5][$i][2]."'>".$teamData[5][$i][2]."</option>");
+						  }?>
+					</select>
 				</div>
 				<a><h3><b><u>Climb Statistics:</u></b></h3></a>
 				<div class="table-responsive">
@@ -382,6 +402,17 @@ var $ = jQuery.noConflict();
 						<tr class="danger">
 							<td>Total Climbs</td>
 							<td><?php echo(getTotalClimb($teamNumber)); ?></td> 
+					  </tr>
+					</tbody>
+					</table>
+				</div>
+				<a><h3><b><u>Defense Statistics:</u></b></h3></a>
+				<div class="table-responsive">
+					<table class="table">
+					<tbody>
+						<tr class="danger">
+							<td>Total Times Defense Played</td>
+							<td><?php echo(getTotalDefense($teamNumber)); ?></td> 
 					  </tr>
 					</tbody>
 					</table>

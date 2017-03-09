@@ -197,17 +197,20 @@ include("databaseName.php");
 		global $dbname;
 		global $pitScoutTable;
 		global $matchScoutTable;
+		global $headScoutTable;
 		
 		$qs1 = "SELECT * FROM `".$pitScoutTable."` WHERE teamNumber = ".$teamNumber."";
 		$qs2 = "SELECT * FROM `".$matchScoutTable."`  WHERE teamNum = ".$teamNumber."";
+		$qs3 = "SELECT * FROM `".$headScoutTable."`";
 		$result = runQuery($qs1);
 		$result2 = runQuery($qs2);
+		$result3 = runQuery($qs3);
 		$teamData = array();
 		if($result != FALSE){
 			if ($result->num_rows > 0) {					
 				// output data of each row
 				while($row = $result->fetch_assoc()) {
-					array_push( $teamData, $row["weight"], $row["height"], $row["numBatteries"], $row["chargedBatteries"], $row["driveTrain"] , array());
+					array_push( $teamData, $row["weight"], $row["height"], $row["numBatteries"], $row["chargedBatteries"], $row["driveTrain"] , array(), array());
 				}
 			}
 		}
@@ -221,9 +224,17 @@ include("databaseName.php");
 							$row["fuelAccuracyT"], $row["fuelSpeedT"], $row["hopperSizeT"], 
 							$row["climb"], $row["climbExtent"], $row["issues"], $row["defenseBot"], 
 							$row["defenseComments"], $row["matchComments"]));
-			}
-			return($teamData);	
+			}	
 		}
+		if($result3 != FALSE){
+			while ($row = mysqli_fetch_array($result3)){
+				array_push(	$teamData[6], array($row["matchNum"], $row["team1"], $row["team2"], 
+							$row["team3"], $row["team4"], $row["team5"], $row["team6"], 
+							$row["strategy1"], $row["strategy2"], $row["strategy3"], 
+							$row["strategy4"], $row["strategy5"], $row["strategy6"]));
+			}
+		}
+		return($teamData);
 	}
 	
 	function getAvgGearA($teamNumber){
@@ -305,8 +316,25 @@ include("databaseName.php");
 	function headScoutComments($teamNumber){
 		$teamData = getTeamData($teamNumber);
 		$headScoutComments = array();
-		for($i = 0; $i != sizeof($teamData[5]); $i++){
-			array_push($headScoutComments, $teamData[5][$i][2]);
+		for($i = 0; $i != sizeof($teamData[6]); $i++){
+			if($teamData[6][$i][1] == $teamNumber){
+				array_push($headScoutComments, $teamData[6][$i][7]);
+			}
+			if($teamData[6][$i][2] == $teamNumber){
+				array_push($headScoutComments, $teamData[6][$i][8]);
+			}
+			if($teamData[6][$i][3] == $teamNumber){
+				array_push($headScoutComments, $teamData[6][$i][9]);
+			}
+			if($teamData[6][$i][4] == $teamNumber){
+				array_push($headScoutComments, $teamData[6][$i][10]);
+			}
+			if($teamData[6][$i][5] == $teamNumber){
+				array_push($headScoutComments, $teamData[6][$i][11]);
+			}
+			if($teamData[6][$i][6] == $teamNumber){
+				array_push($headScoutComments, $teamData[6][$i][12]);
+			}
 		}
 		return ($headScoutComments);
 	}

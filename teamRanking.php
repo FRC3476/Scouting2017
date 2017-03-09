@@ -1,5 +1,6 @@
 <html>
-<?php include("header.php")?>
+<?php session_start();
+include("header.php")?>
 <body>
 	<?php include("navbar.php")?>
 
@@ -78,6 +79,6 @@
 			?>
 			</table>
 		</div>
-	</div
-	<?php echo($tableEcho);?>
+	</div>
 </body>
+<?php include("footer.php") ?>

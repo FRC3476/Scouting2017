@@ -1,6 +1,7 @@
 <html>
 <body>
-<?php include("navbar.php");?>
+<?php session_start();
+include("navbar.php");?>
 <script src="sortable.js"> </script>
 
 <div class="container row-offcanvas row-offcanvas-left">
