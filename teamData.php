@@ -49,9 +49,9 @@ var $ = jQuery.noConflict();
 		<button id="submit" class="btn btn-primary" onclick="">Display</button>
 		<div class="row">
 			<div class = "col-md-4">
-				<h1> Team <?php echo($_GET["team"]);?></h1>	
+				<h1> Team <?php echo($_GET["team"]);?> - <?php echo($teamData[0]); ?></h1>	
 				<div class="box">			
-					<div id="myCarousel" class="carousel slide" data-ride="carousel">
+					<div id="myCarousel" class="carousel slide" data-interval="false">
 					  <ol class="carousel-indicators">
 					  <?php 
 						$index = 0;
@@ -71,13 +71,13 @@ var $ = jQuery.noConflict();
 						$index = 0;
 						while(file_exists("uploads/".$_GET["team"]."-".$index.".jpg")==1){
 								if($index == 0){	
-									echo('<div class="item active">
-											<img class="img-responsive" id="'.$_GET["team"].'-'.$index.'" src="uploads/'.$_GET["team"].'-'.$index.'.jpg">
+									echo('<div class="item active" >
+											<img  class="img-responsive" id="'.$_GET["team"].'-'.$index.'" src="uploads/'.$_GET["team"].'-'.$index.'.jpg" >
 										 </div>');
 								}
 								else{
-									echo('<div class="item">
-											<img class="img-responsive" id="'.$_GET["team"].'-'.$index.'" src="uploads/'.$_GET["team"].'-'.$index.'.jpg">
+									echo('<div class="item" >
+											<img  class="img-responsive" id="'.$_GET["team"].'-'.$index.'" src="uploads/'.$_GET["team"].'-'.$index.'.jpg" >
 										 </div>');
 								}
 								$index++;
@@ -147,31 +147,31 @@ var $ = jQuery.noConflict();
 					value: <?php echo($fuelSpeed[0]);?>,
 					color:"#FF8C00",
 					highlight: "#FF5A5E",
-					label: "(> / =50 sec)"
+					label: "(> / =09 sec)"
 				},
 				{
 					value: <?php echo($fuelSpeed[1]);?>,
 					color: "#008080",
 					highlight: "#5AD3D1",
-					label: "(31 - 40 sec)"
+					label: "(07 - 08 sec)"
 				},
 				{
 					value: <?php echo($fuelSpeed[2]);?>,
 					color: "#9ACD32",
 					highlight: "#FFC870",
-					label: "(21 - 30 sec)"
+					label: "(05 - 06 sec)"
 				},
 				{
 					value: <?php echo($fuelSpeed[3]);?>,
 					color: "#20B2AA",
 					highlight: "#A8B3C5",
-					label: "(11 - 20 sec)"
+					label: "(03 - 04 sec)"
 				},
 				{
 					value: <?php echo($fuelSpeed[4]);?>,
 					color: "#FFA500",
 					highlight: "#616774",
-					label: "(01 - 10 sec)"
+					label: "(01 - 02 sec)"
 				}
 			];	
 
@@ -277,22 +277,22 @@ var $ = jQuery.noConflict();
 						<tr class="success">
 							<td>Match Comments</td>
 							<td><?php $matchComments = matchComments($teamNumber); 
-										for($i = 0; $i!= sizeof($teamData[5]); $i++){
-											echo("$matchComments[$i], ").PHP_EOL;
+										for($i = 0; $i!= sizeof($teamData[7]); $i++){
+											echo("$matchComments[$i].").PHP_EOL;
 										}?></td>
 					  </tr>
 					  <tr class="info">
 							<td>Defense Comments</td>
 							<td><?php $defenseComments = defenseComments($teamNumber); 
-										for($i = 0; $i!= sizeof($teamData[5]); $i++){
-											echo("$defenseComments[$i], ").PHP_EOL;											
+										for($i = 0; $i!= sizeof($teamData[7]); $i++){
+											echo("$defenseComments[$i].").PHP_EOL;											
 										}?></td>
 					  </tr>
 					  <tr class="danger">
 							<td>Head Scout Comments</td>
 							<td><?php $headScoutComments = headScoutComments($teamNumber); 
-										for($i = 0; $i!= sizeof($teamData[6]); $i++){
-											echo("$headScoutComments[$i], ").PHP_EOL;											
+										for($i = 0; $i!= sizeof($teamData[8]); $i++){
+											echo("$headScoutComments[$i].").PHP_EOL;											
 										}?></td>
 					  </tr>
 					</tbody>
@@ -306,23 +306,27 @@ var $ = jQuery.noConflict();
 					<tbody>
 						<tr class="info">
 							<td>Weight of Robot</td>
-							<td><?php echo($teamData[0]); ?></td>
+							<td><?php echo($teamData[1]); ?></td>
 					  </tr>
 					  <tr class="success">
 							<td>Height of Robot</td>
-							<td><?php echo($teamData[1]); ?></td>
+							<td><?php echo($teamData[2]); ?></td>
 					  </tr>
 					  <tr class="danger">
 							<td>No. of Batteries</td>
-							<td><?php echo($teamData[2]); ?></td>
+							<td><?php echo($teamData[3]); ?></td>
 					  </tr> 
 					  <tr class="info">
 							<td>Batteries Charged Simultaneously</td>
-							<td><?php echo($teamData[3]); ?></td>
+							<td><?php echo($teamData[4]); ?></td>
 					  </tr>
 					   <tr class="success">
 							<td>Drive Train</td>
-							<td><?php echo($teamData[4]); ?></td>
+							<td><?php echo($teamData[5]); ?></td>
+					  </tr>
+					  <tr class="danger">
+							<td>Pit Comments</td>
+							<td><?php echo($teamData[6]); ?></td>
 					  </tr>
 					</tbody>
 					</table>
@@ -341,8 +345,8 @@ var $ = jQuery.noConflict();
 						var imageObj = new Image();
 						var matchToPoints = [];
 						<?php
-							for($i = 0; $i != sizeof($teamData[5]); $i++){
-								echo("matchToPoints[".$teamData[5][$i][2]."] = ".$teamData[5][$i][5].";");
+							for($i = 0; $i != sizeof($teamData[7]); $i++){
+								echo("matchToPoints[".$teamData[7][$i][2]."] = ".$teamData[7][$i][5].";");
 							}
 						?>
 
@@ -390,8 +394,8 @@ var $ = jQuery.noConflict();
 					</script>
 					<h4><b>Match Number -</b></h4>
 					<select onclick = "drawPointLines()"id="matchNum" class="form-control">
-					<?php for($i = 0;$i != sizeof($teamData[5]); $i++){
-							echo("<option value='".$teamData[5][$i][2]."'>".$teamData[5][$i][2]."</option>");
+					<?php for($i = 0;$i != sizeof($teamData[7]); $i++){
+							echo("<option value='".$teamData[7][$i][2]."'>".$teamData[7][$i][2]."</option>");
 						  }?>
 					</select>
 				</div>

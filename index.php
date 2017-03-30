@@ -24,7 +24,7 @@ include('navbar.php');
 			<br>
 			<a href="headScoutInput.php">Head Scout Form</a></li>
 			<br>
-			<a href="Schedule_Newton.pdf">Schedule 2017 San Diego</a></li>
+			<a href="Schedule_Newton.pdf">Schedule 2017 Orange County</a></li>
 			</h3
 			</div>
 		</div>

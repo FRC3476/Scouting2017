@@ -43,7 +43,7 @@ include("navbar.php");?>
 						<h3 style="text-align: center;">ID</h3>
 						<input type="text" style="margin: auto;margin-left: auto;margin-right: auto; display:block;" id = "ID" name="ID">
 						<br>
-						<input style="margin: 0 auto;margin-left: auto;margin-right: auto; display:block;"  class="myButton" type="submit" value="Submit"><br>
+						<input style="margin: 0 auto;margin-left: auto;margin-right: auto; display:block;"  class="btn btn-primary" type="submit" value="Submit"><br>
 					</form>
 					
 						

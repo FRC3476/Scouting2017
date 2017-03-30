@@ -3,17 +3,21 @@
  if( isset( $_POST['teamNumber'] ) ) {
 	include("databaseLibrary.php");
 	 $teamNum = mysql_real_escape_string($_POST['teamNumber']);
+	 $teamName = mysql_real_escape_string($_POST['teamName']);
 	 $weight = mysql_real_escape_string($_POST['weight']);
 	 $height = mysql_real_escape_string($_POST['height']);
 	 $numBatteries = mysql_real_escape_string($_POST['numBatteries']);
 	 $chargedBatteries = mysql_real_escape_string($_POST['chargedBatteries']);
 	 $driveTrain = mysql_real_escape_string($_POST['driveTrain']);
+	 $pitComments = mysql_real_escape_string($_POST['pitComments']);
 	 pitScoutInput( $teamNum,
+				 $teamName,
 				 $weight,
 				 $height,
 				 $numBatteries,
 				 $chargedBatteries,
-				 $driveTrain);
+				 $driveTrain,
+				 $pitComments);
  }
  ?>
 <head>
@@ -44,6 +48,15 @@
 				<div class="col-lg-10">
 					<input type="text" class="form-control" id="teamNumber" name="teamNumber" placeholder=" ">
 				</div>
+			</div>
+			
+			<div class="col-lg-2">
+			<b><br>Team Name: </b>
+			</div>
+				<div class="col-lg-10">
+				<br>
+				<input type="text" class="form-control" id="teamName" name="teamName" placeholder=" ">
+				<br>
 			</div>
 			
 			<div class="col-lg-2">
@@ -90,6 +103,16 @@
 				<br>
 				<br>
 				<input type="text" class="form-control" id="driveTrain" name="driveTrain" placeholder=" ">
+				<br>
+				</div>
+				
+			<div class="col-lg-2">
+			<b><br>Comments: </b>
+			</div>
+				<div class="col-lg-10">
+				<br>
+				<br>
+				<input type="text" class="form-control" id="pitComments" name="pitComments" placeholder=" ">
 				<br>
 				</div>
 				
