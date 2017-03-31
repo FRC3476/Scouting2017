@@ -2,7 +2,9 @@
 <?php
 		session_start();
 		if($_SESSION['userIDCookie'] ){
-			$_SESSION['allianceColor'] = mysql_real_escape_string($_POST['allianceColor']);
+			if($_POST['allianceColor']){
+				$_SESSION['allianceColor'] = mysql_real_escape_string($_POST['allianceColor']);
+			}
 		}
 		else{
 			header("Location: login.php");
@@ -224,9 +226,17 @@ function postwith(to){
 				</div>
 				<div class="col-md-3">
 					Alliance Color:
-					<select id="allianceColor" class="form-control" value="<?php echo(mysql_real_escape_string($_POST['allianceColor']))?>">
-						<option value="blue">Blue</option>
-						<option value="red">Red</option>
+					<select id="allianceColor" class="form-control">
+						<?php 
+							if($_SESSION['allianceColor'] = "blue"){
+								echo('<option value="blue">Blue</option>
+									  <option value="red">Red</option>');
+							}
+							else{
+								echo('<option value="red">Red</option>
+								      <option value="blue">Blue</option>');
+							}
+						?>
 					</select>
 				</div>
 				<div class="col-md-3">
