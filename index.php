@@ -22,9 +22,11 @@ include('navbar.php');
 			<h3>
 			<a href="matchInput.php">Match Form</a></li>
 			<br>
+			<a href="pitInput.php">Pit Scout Form</a></li>
+			<br>
 			<a href="headScoutInput.php">Head Scout Form</a></li>
 			<br>
-			<a href="Orange_County.pdf">Schedule 2017 Orange County</a></li>
+			<a href="Turing_Schedule.pdf">Schedule 2017 Champs</a></li>
 			</h3
 			</div>
 		</div>

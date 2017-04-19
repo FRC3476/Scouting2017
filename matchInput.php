@@ -1,9 +1,9 @@
 <html>
 <?php
 		session_start();
-		if($_SESSION['userIDCookie'] ){
-			if($_POST['allianceColor']){
-				$_SESSION['allianceColor'] = mysql_real_escape_string($_POST['allianceColor']);
+		if(isset($_SESSION['userIDCookie'])){
+			if(isset($_POST['allianceColor'])){
+				$_SESSION['allianceColor'] = filter_var($_POST['allianceColor'], FILTER_SANITIZE_STRING);
 			}
 		}
 		else{
@@ -17,29 +17,29 @@ include("navbar.php");
 if( isset( $_POST['matchNum'] ) ) {
 	include("databaseLibrary.php");
 	 $user = ($_SESSION['userIDCookie']);
-	 $matchNum = mysql_real_escape_string($_POST['matchNum']);
-	 $teamNum = mysql_real_escape_string($_POST['teamNum']);
+	 $matchNum = filter_var($_POST['matchNum'], FILTER_SANITIZE_STRING);  
+	 $teamNum = filter_var($_POST['teamNum'], FILTER_SANITIZE_STRING);  
 	 $ID = $matchNum."-".$teamNum;
-	 $allianceColor = mysql_real_escape_string($_POST['allianceColor']);
-	 $autoPath = mysql_real_escape_string($_POST['autoPath']);
-	 $crossLineA = mysql_real_escape_string($_POST['crossLineA']);
-	 $gearPositionA = mysql_real_escape_string($_POST['gearPositionA']);
-	 $gearNumberA = mysql_real_escape_string($_POST['gearNumberA']);
-	 $hopperUsedA = mysql_real_escape_string($_POST['hopperUsedA']);
-	 $rankingPointA = mysql_real_escape_string($_POST['rankingPointA']);
-	 $gearNumberT = mysql_real_escape_string($_POST['gearNumberT']);
-	 $gearPickupT = mysql_real_escape_string($_POST['gearPickupT']);
-	 $fuelGoalT = mysql_real_escape_string($_POST['fuelGoalT']);
-	 $fuelPickupT = mysql_real_escape_string($_POST['fuelPickupT']);
-	 $fuelAccuracyT = mysql_real_escape_string($_POST['fuelAccuracyT']);
-	 $fuelSpeedT = mysql_real_escape_string($_POST['fuelSpeedT']);
-	 $hopperSizeT = mysql_real_escape_string($_POST['hopperSizeT']);
-	 $climb = mysql_real_escape_string($_POST['climb']);
-	 $climbExtent = mysql_real_escape_string($_POST['climbExtent']);
-	 $issues = mysql_real_escape_string($_POST['issues']);
-	 $defenseBot = mysql_real_escape_string($_POST['defenseBot']);
-	 $defenseComments = mysql_real_escape_string($_POST['defenseComments']);
-	 $matchComments = mysql_real_escape_string($_POST['matchComments']);
+	 $allianceColor = filter_var($_POST['allianceColor'], FILTER_SANITIZE_STRING); 
+	 $autoPath = filter_var($_POST['autoPath'], FILTER_SANITIZE_STRING);  
+	 $crossLineA = filter_var($_POST['crossLineA'], FILTER_SANITIZE_STRING);  
+	 $gearPositionA = filter_var($_POST['gearPositionA'], FILTER_SANITIZE_STRING);  
+	 $gearNumberA = filter_var($_POST['gearNumberA'], FILTER_SANITIZE_STRING);  
+	 $hopperUsedA = filter_var($_POST['hopperUsedA'], FILTER_SANITIZE_STRING);  
+	 $rankingPointA = filter_var($_POST['rankingPointA'], FILTER_SANITIZE_STRING);  
+	 $gearNumberT = filter_var($_POST['gearNumberT'], FILTER_SANITIZE_STRING);  
+	 $gearPickupT = filter_var($_POST['gearPickupT'], FILTER_SANITIZE_STRING);  
+	 $fuelGoalT = filter_var($_POST['fuelGoalT'], FILTER_SANITIZE_STRING);  
+	 $fuelPickupT = filter_var($_POST['fuelPickupT'], FILTER_SANITIZE_STRING);  
+	 $fuelAccuracyT = filter_var($_POST['fuelAccuracyT'], FILTER_SANITIZE_STRING);  
+	 $fuelSpeedT = filter_var($_POST['fuelSpeedT'], FILTER_SANITIZE_STRING);  
+	 $hopperSizeT = filter_var($_POST['hopperSizeT'], FILTER_SANITIZE_STRING);  
+	 $climb = filter_var($_POST['climb'], FILTER_SANITIZE_STRING);  
+	 $climbExtent = filter_var($_POST['climbExtent'], FILTER_SANITIZE_STRING);  
+	 $issues = filter_var($_POST['issues'], FILTER_SANITIZE_STRING);  
+	 $defenseBot = filter_var($_POST['defenseBot'], FILTER_SANITIZE_STRING);  
+	 $defenseComments = filter_var($_POST['defenseComments'], FILTER_SANITIZE_STRING);  
+	 $matchComments = filter_var($_POST['matchComments'], FILTER_SANITIZE_STRING);  
 	 matchInput( $user,
 				 $ID,
 				 $matchNum,
@@ -227,15 +227,14 @@ function postwith(to){
 				<div class="col-md-3">
 					Alliance Color:
 					<select id="allianceColor" class="form-control">
-						<?php 
-							if($_SESSION['allianceColor'] = "blue"){
-								echo('<option value="blue">Blue</option>
-									  <option value="red">Red</option>');
-							}
-							else{
-								echo('<option value="red">Red</option>
-								      <option value="blue">Blue</option>');
-							}
+						<?php   if($_SESSION['allianceColor'] == "blue"){
+									echo("<option value='blue'>Blue</option>
+										  <option value='red'>Red</option>");
+								}
+							    else{
+									echo("<option value='red'>Red</option>
+										  <option value='blue'>Blue</option>");
+								}
 						?>
 					</select>
 				</div>
@@ -379,17 +378,23 @@ function postwith(to){
 										//drawPoint(context , mousePos.x , mousePos.y);
 										drawPointLines(context , [mousePos.x , mousePos.y]);
 										console.log(message);
-									}	
+									}
+										evt.preventDefault();
+										return false;
 								}
 								
 								function startPoint(evt){
 									console.log("A");
 									drawLine = true;
+									evt.preventDefault();
+									return false;
 								}
 								
 								function endPoint(evt){
 									console.log("B");
 									drawLine = false;
+									evt.preventDefault();
+									return false;
 								}
 								
 								
@@ -487,11 +492,11 @@ function postwith(to){
 				<h4><b>Fuel Speed -</b></h4>
 					<select id="fuelSpeedT" class="form-control">
 						 <option value="N/A">N/A</option>
-						 <option value="1">1 (> / =09 sec)</option>
-						 <option value="2">2 (07 - 08 sec)</option>
-						 <option value="3">3 (05 - 06 sec)</option>
-						 <option value="4">4 (03 - 04 sec)</option>
-						 <option value="5">5 (01 - 02 sec)</option>
+						 <option value="1">1 (> / =50 sec)</option>
+						 <option value="2">2 (31 - 40 sec)</option>
+						 <option value="3">3 (21 - 30 sec)</option>
+						 <option value="4">4 (11 - 20 sec)</option>
+						 <option value="5">5 (01 - 10 sec)</option>
 					</select>
 					<h4><b>Hopper Size -</b></h4>
 					<select id="hopperSizeT" class="form-control">
@@ -504,7 +509,7 @@ function postwith(to){
 					</select>
 				<a><h3><b><u>Climb:</u></b></h3></a>
 					<div class="togglebutton" id="reach">
-						<h4><b>Climb?</b></h4>
+						<h4><b>Climb?(Only for Full Climb)</b></h4>
 						<label>
 							<input id="climb" type="checkbox">
 						</label>

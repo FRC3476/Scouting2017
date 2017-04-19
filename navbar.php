@@ -33,7 +33,8 @@
 				<li><a href="matchData.php">Match Data</a></li>
 				<li><a href="teamRanking.php">Ranking</a></li>	
 				<li><a href="matchOutput.php">Match Output</a></li>
-				<li><a href="headScoutOutput.php">HS Output</a></li>	
+				<li><a href="headScoutOutput.php">HS Output</a></li>
+				<li><a href="teamFilter.php">Team Filter</a></li>	
 
 			</ul>
 			<ul class="nav navbar-nav navbar-right">

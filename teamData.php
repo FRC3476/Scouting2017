@@ -72,12 +72,12 @@ var $ = jQuery.noConflict();
 						while(file_exists("uploads/".$_GET["team"]."-".$index.".jpg")==1){
 								if($index == 0){	
 									echo('<div class="item active" >
-											<img  class="img-responsive" id="'.$_GET["team"].'-'.$index.'" src="uploads/'.$_GET["team"].'-'.$index.'.jpg" >
+											<img   id="'.$_GET["team"].'-'.$index.'" src="uploads/'.$_GET["team"].'-'.$index.'.jpg" >
 										 </div>');
 								}
 								else{
 									echo('<div class="item" >
-											<img  class="img-responsive" id="'.$_GET["team"].'-'.$index.'" src="uploads/'.$_GET["team"].'-'.$index.'.jpg" >
+											<img   id="'.$_GET["team"].'-'.$index.'" src="uploads/'.$_GET["team"].'-'.$index.'.jpg" >
 										 </div>');
 								}
 								$index++;
